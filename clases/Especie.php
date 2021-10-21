@@ -1,11 +1,11 @@
 <?php
 class Especie
 {
-    protected $EspecieId;
-    Protected $EspecieNombre;
-    protected $EspecieDescripcion;
-    protected $EspecieStock;
-    protected $EspecieImporte;
+    public $EspecieID;
+    public $EspecieNombre;
+    public $EspecieDescripcion;
+    public $EspecieStock;
+    public $EspecieImporte;
 
     public function __construct($EspecieNombre, $EspecieDescripcion, $EspecieStock, $EspecieImporte, $id = null)
     {

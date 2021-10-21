@@ -43,13 +43,14 @@ class RepositorioEspecie
         }
     } 
         Public function get_one($id){
-            $q = "SELECT EspecieID, EspecieNombre, EspecieDescripcion, EspecieStock, EspecieImporte FROM ejemplo.especies WHERE EspecieID = ?;";
+            $q = "SELECT EspecieNombre, EspecieDescripcion, EspecieStock, EspecieImporte FROM ejemplo.especies WHERE EspecieID = ?;";
             $query = self::$conexion->prepare($q);
             $query->bind_param("i", $id);
-            $query->bind_result($id, $nombre, $descripcion, $stock, $importe);
+            $query->bind_result($n, $d, $s, $i);
             if ($query->execute()) {
                 if ($query->fetch()){
-                    $Especie =  new Especie($id,$nombre,$descripcion, $stock, $importe);
+                    $Especie =  new Especie($n,$d, $s, $i, $id);
+                
                     return $Especie;
                    
                 } else {
@@ -85,14 +86,20 @@ class RepositorioEspecie
         }
 
         public function update(Especie $Especie ){
-            $q = "UPDATE FROM especies set 
-            especieNombre = ?
-            especieDescripcion = ?
-            especieImporte     = ?
+            $nombre = $Especie->getNombre();
+            $descripcion = $Especie->getDescripcion();
+            $stock = $Especie->getStock();
+            $importe = $Especie->getImporte();
+            $id = $Especie->getID();
+            $q = "UPDATE especies set 
+            especieNombre = ?,
+            especieDescripcion = ?,
+            especieImporte     = ?,
             especieStock       = ?            
             Where EspecieID = ?";
             $query = self::$conexion->prepare($q);
-            $query = bind_param("ssiii", $Especie->getNombre(), $Especie->getDescripcion(), $Especie->getImporte(), $Especie->getStock(), $Especie->getId());
+            $query->bind_param("ssiii", $nombre, $descripcion, $importe, $stock , $id);
+            // var_dump($query);
             if ($query->execute()) {
                 return true;
             } else {
