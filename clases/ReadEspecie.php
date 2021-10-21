@@ -6,8 +6,18 @@ require_once "RepositorioEspecie.php";
 $r = new RepositorioEspecie();
 $resultado = $r->read();
 if (isset($resultado)) { ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap.min.css"
+</head>
+<body>
 <h2> Resultados </h2>
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
             <th> # </th> <th> Nombre </th> <th> Descripcion </th> <th> Stock </th> <th> Importe </th> <th> Editar </th> <th> Eliminar </th>
@@ -21,8 +31,8 @@ if (isset($resultado)) { ?>
                 <td> <?php echo $fila[2]; ?> </td>
                 <td> <?php echo $fila[3]; ?> </td>
                 <td> <?php echo $fila[4]; ?> </td>
-                <td> <a href="UpdateEspecie.php?id=<?php echo $fila["especieid"];?>"> Editar </a> </td>
-                <td> <a href="DeleteEspecie.php?id=<?php echo $fila["especieid"];?>"> Eliminar </a> </td>
+                <td> <a href="UpdateEspecie.php?especieid=<?php echo $fila[0];?>"> Editar </a> </td>
+                <td> <a href="DeleteEspecie.php?especieid=<?php echo $fila[0];?>"> Eliminar </a> </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -32,4 +42,7 @@ if (isset($resultado)) { ?>
     <?php } ?>
     
     
-<a href="../home.php"> Volver </a>
+<a href="../home.php"> Volver </a>    
+</body>
+</html>
+

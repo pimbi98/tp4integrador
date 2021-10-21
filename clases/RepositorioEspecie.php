@@ -42,6 +42,23 @@ class RepositorioEspecie
             return false;
         }
     } 
+        Public function get_one($id){
+            $q = "SELECT EspecieID, EspecieNombre, EspecieDescripcion, EspecieStock, EspecieImporte FROM ejemplo.especies WHERE EspecieID = ?;";
+            $query = self::$conexion->prepare($q);
+            $query->bind_param("i", $id);
+            $query->bind_result($id, $nombre, $descripcion, $stock, $importe);
+            if ($query->execute()) {
+                if ($query->fetch()){
+                    $Especie =  new Especie($id,$nombre,$descripcion, $stock, $importe);
+                    return $Especie;
+                   
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }      
+        }
 
         public function read(){
             $q = "SELECT EspecieID, EspecieNombre, EspecieDescripcion, EspecieStock, EspecieImporte FROM ejemplo.especies;";
@@ -50,31 +67,37 @@ class RepositorioEspecie
                 if ($query->execute()) {
                     $resultados = $query->get_result();
                     $arrayResultados = $resultados->fetch_all();
+                    // var_dump($arrayResultados); Prueba efectuada con el profesor.
                     return $arrayResultados;
                 } else {
                     return false;
                 }      
             }
-        public function update(Especie $Especie){
-            $q = "UPDATE especies set EspecieNombre = ?, EspecieDescripcion = ?, EspecieStock = ?, EspecieImporte = ? WHERE EspecieID = ?;";
+        public function delete($id){
+            $q = "DELETE FROM especies WHERE EspecieID = ?";
             $query = self::$conexion->prepare($q);
-            $query->bind_param("ssiii", $Especie->getNombre(), $Especie->getDescripcion(), $Especie->getStock(), $Especie->getImporte(), $Especie->getId());
+            $query->bind_param("i", $id); //para eliminar debo solo adjuntar clave principal.
             if ($query->execute()) {
-                return true;
+                return true; //No devuelve resultados.
             } else {
                 return false;
-            }  
+            }   
         }
 
-        public function delete($EspecieID){
-            $q = "DELETE FROM especies where EspecieID = ?";
+        public function update(Especie $Especie ){
+            $q = "UPDATE FROM especies set 
+            especieNombre = ?
+            especieDescripcion = ?
+            especieImporte     = ?
+            especieStock       = ?            
+            Where EspecieID = ?";
             $query = self::$conexion->prepare($q);
-            $query->bind_param("i", $EspecieID);
+            $query = bind_param("ssiii", $Especie->getNombre(), $Especie->getDescripcion(), $Especie->getImporte(), $Especie->getStock(), $Especie->getId());
             if ($query->execute()) {
                 return true;
             } else {
                 return false;
-            }  
+            }
         }
 }
 

@@ -22,7 +22,6 @@ class Especie
     public function getDescripcion() {return $this->EspecieDescripcion;}
     public function getStock() {return $this->EspecieStock;}
     public function getImporte() {return $this->EspecieImporte;}
-    
 }
 
 
